@@ -1,4 +1,5 @@
-require("dotenv").config();
+require("dotenv").config({ path: "/etc/secrets/.env" });
+
 const mongoose = require("mongoose");
 const express = require("express");
 const routes = require("./routes"); // Импорт маршрутов
