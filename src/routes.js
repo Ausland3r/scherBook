@@ -31,6 +31,49 @@ router.post("/auth/login", async (req, res) => {
   }
 });
 
+router.post("/auth/register", async (req, res) => {
+  try {
+    const { name, email, username, password, role } = req.body;
+
+    // Проверка, существует ли пользователь с таким email
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).send("User with this email already exists.");
+    }
+
+    // Создание нового пользователя
+    const user = new User({
+      name,
+      email,
+      username,
+      password,
+      role: role || "user", // По умолчанию роль "user"
+    });
+
+    await user.save();
+
+    // Генерация JWT
+    const token = jwt.sign(
+      { userId: user._id }, // Полезная информация в токене
+      process.env.JWT_SECRET, // Секретный ключ из .env
+      { expiresIn: "1h" } // Срок действия токена
+    );
+
+    res.status(201).json({
+      message: "Registration successful",
+      token, // Токен для аутентификации
+      user: {
+        id: user._id,
+      },
+    });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+
+
+
 // Получение всех пользователей
 router.get("/users", async (req, res) => {
   try {
