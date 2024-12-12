@@ -33,7 +33,7 @@ router.post("/auth/login", async (req, res) => {
 
 router.post("/auth/register", async (req, res) => {
   try {
-    const { name, email, username, password, role } = req.body;
+    const { email, username, password, role } = req.body;
 
     // Проверка, существует ли пользователь с таким email
     const existingUser = await User.findOne({ email });
@@ -43,7 +43,6 @@ router.post("/auth/register", async (req, res) => {
 
     // Создание нового пользователя
     const user = new User({
-      name,
       email,
       username,
       password,
