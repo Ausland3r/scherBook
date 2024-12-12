@@ -1,0 +1,9 @@
+{
+  "name": "Admin User",
+  "username": "admin",
+  "password": "securepassword123",
+  "email": "admin@example.com",
+  "role": "admin",
+  "available_books": [],
+  "exchange_history": []
+}

@@ -1,0 +1,14 @@
+{
+    "name": "book-exchange-backend",
+    "version": "1.0.0",
+    "description": "Backend for Book Exchange application",
+    "main": "src/server.js",
+    "scripts": {
+      "start": "node src/server.js"
+    },
+    "dependencies": {
+      "express": "^4.18.2",
+      "mongoose": "^6.13.2",
+      "dotenv": "^16.0.3"
+    }
+  }
