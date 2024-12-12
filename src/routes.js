@@ -1,6 +1,35 @@
 const express = require("express");
+const jwt = require("jsonwebtoken");
 const { User } = require("./models");
 const router = express.Router();
+
+router.post("/auth/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+
+    // Поиск пользователя по email
+    const user = await User.findOne({ email });
+    if (!user) {
+      return res.status(404).send("User not found.");
+    }
+
+    // Проверка пароля
+    if (user.password !== password) {
+      return res.status(401).send("Invalid email or password.");
+    }
+
+    // Генерация токена
+    const token = jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    res.json({ message: "Login successful", token });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
 
 // Получение всех пользователей
 router.get("/users", async (req, res) => {
