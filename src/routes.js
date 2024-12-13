@@ -3,24 +3,6 @@ const jwt = require("jsonwebtoken");
 const { User } = require("./models");
 const router = express.Router();
 
-function authenticateToken(req, res, next) {
-  const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1]; // Формат: "Bearer TOKEN"
-
-  if (!token) {
-    return res.status(401).send("Access denied. No token provided.");
-  }
-
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
-      return res.status(403).send("Invalid token.");
-    }
-
-    req.user = user; // Добавляем информацию о пользователе в запрос
-    next();
-  });
-}
-
 router.post("/auth/login", async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -88,7 +70,7 @@ router.post("/auth/register", async (req, res) => {
   }
 });
 
-router.get("/users", authenticateToken, async (req, res) => {
+router.get("/users", async (req, res) => {
   try {
     const users = await User.find();
     res.json(users);
