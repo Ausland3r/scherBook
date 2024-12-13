@@ -1,6 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const { User } = require("./models");
+const { User, Book } = require("./models");
 const router = express.Router();
 
 router.post("/auth/login", async (req, res) => {
@@ -70,12 +70,61 @@ router.post("/auth/register", async (req, res) => {
   }
 });
 
-router.get("/users", async (req, res) => {
+router.get("/users/:id", async (req, res) => {
   try {
-    const users = await User.find();
-    res.json(users);
+    const user = await User.findById(req.params.id);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    res.json(user);
   } catch (err) {
     res.status(500).send(err.message);
+  }
+});
+
+router.put("/users/:id", async (req, res) => {
+  try {
+    const updates = req.body;
+    const user = await User.findByIdAndUpdate(req.params.id, updates, {
+      new: true,
+      runValidators: true,
+    });
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    res.json(user);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+router.get("/genres", async (req, res) => {
+  try {
+    const genres = await Book.distinct("genre");
+    res.json(genres);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+// Добавление новой книги
+router.post("/books", async (req, res) => {
+  try {
+    const { ownerId, title, author, genre, image } = req.body;
+
+    // Создание новой книги
+    const newBook = new Book({
+      ownerId,
+      title,
+      author,
+      genre,
+      image,
+    });
+
+    await newBook.save();
+    res.status(201).json(newBook);
+  } catch (err) {
+    res.status(400).send(err.message);
   }
 });
 
