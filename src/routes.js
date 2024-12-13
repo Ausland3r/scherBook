@@ -156,6 +156,18 @@ router.post("/exchange", async (req, res) => {
   }
 });
 
+router.get("/exchange/:id", async (req, res) => {
+  try {
+    const Exchange = await Exchange.findById(req.params.id);
+    if (!Exchange) {
+      return res.status(404).send("Exchange not found");
+    }
+    res.json(Exchange);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 // Получение всех обменов пользователя по ID
 router.get("/exchanges/:id", async (req, res) => {
   try {
@@ -169,6 +181,8 @@ router.get("/exchanges/:id", async (req, res) => {
     res.status(500).send(err.message);
   }
 });
+
+
 
 // Получение всех обменов
 router.get("/exchanges", async (req, res) => {
