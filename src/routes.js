@@ -127,6 +127,16 @@ router.post("/books", async (req, res) => {
   }
 });
 
+// Получение списка всех книг
+router.get("/books", async (req, res) => {
+  try {
+    const books = await Book.find();
+    res.json(books);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 // Добавление нового запроса на обмен
 router.post("/exchange", async (req, res) => {
   try {
@@ -145,5 +155,30 @@ router.post("/exchange", async (req, res) => {
     res.status(400).send(err.message);
   }
 });
+
+// Получение всех обменов пользователя по ID
+router.get("/exchanges/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Поиск обменов, где пользователь является создателем
+    const exchanges = await Exchange.find({ creatorId: id });
+
+    res.json(exchanges);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+// Получение всех обменов
+router.get("/exchanges", async (req, res) => {
+  try {
+    const exchanges = await Exchange.find();
+    res.json(exchanges);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 
 module.exports = router;
