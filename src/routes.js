@@ -1,6 +1,6 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-const { User, Book } = require("./models");
+const { User, Book, Exchange } = require("./models");
 const router = express.Router();
 
 router.post("/auth/login", async (req, res) => {
@@ -122,6 +122,25 @@ router.post("/books", async (req, res) => {
 
     await newBook.save();
     res.status(201).json(newBook);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
+
+// Добавление нового запроса на обмен
+router.post("/exchange", async (req, res) => {
+  try {
+    const { creatorId, bookId, desiredCriteria } = req.body;
+
+    // Создание нового запроса на обмен
+    const newExchange = new Exchange({
+      creatorId,
+      bookId,
+      desiredCriteria
+    });
+
+    await newExchange.save();
+    res.status(201).json(newExchange);
   } catch (err) {
     res.status(400).send(err.message);
   }

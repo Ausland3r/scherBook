@@ -23,4 +23,20 @@ const bookSchema = new mongoose.Schema({
 
 const Book = mongoose.model("Book", bookSchema, "Books");
 
-module.exports = { User, Book };
+const exchangeSchema = new mongoose.Schema({
+  creatorId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true }, // ID пользователя, создавшего обмен
+  accepterId: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null }, // ID пользователя, принявшего обмен (по умолчанию null)
+  bookId: { type: mongoose.Schema.Types.ObjectId, ref: "Book", required: true }, // ID книги, предложенной для обмена
+  desiredCriteria: { // Желаемые критерии
+    title: { type: String, required: false }, // Желаемое название книги
+    author: { type: String, required: false }, // Желаемый автор книги
+    genre: { type: String, required: false } // Желаемый жанр книги
+  },
+  status: {type: String, default: "pending"},
+  createdAt: { type: Date, default: Date.now } // Дата создания запроса на обмен
+
+});
+
+const Exchange = mongoose.model("Exchange", exchangeSchema, "Exchanges");
+
+module.exports = { User, Book, Exchange };
