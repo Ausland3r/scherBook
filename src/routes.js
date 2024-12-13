@@ -180,5 +180,18 @@ router.get("/exchanges", async (req, res) => {
   }
 });
 
+// Получение книги по id
+router.get("/books/:id", async (req, res) => {
+  try {
+    const book = await Book.findById(req.params.id);
+    if (!book) {
+      return res.status(404).send("Book not found");
+    }
+    res.json(book);
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 
 module.exports = router;
