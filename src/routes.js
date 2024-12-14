@@ -141,46 +141,17 @@ router.post("/exchange", async (req, res) => {
   try {
     const { creatorId, title, author, genre, desiredCriteria } = req.body;
 
-    // Шаг 1: Создаем книгу
+    // 1. Создаем книгу, которую пользователь предлагает на обмен
     const newBook = new Book({
       ownerId: creatorId,
       title,
       author,
       genre,
     });
-
     const savedBook = await newBook.save();
     const bookId = savedBook._id;
 
-    // Шаг 2: Проверяем, есть ли совпадение для `desiredCriteria`
-    const matchingExchange = await Exchange.findOne({
-      "desiredCriteria.title": title,
-      "desiredCriteria.author": author,
-      "desiredCriteria.genre": genre,
-      status: "pending",
-    });
-
-    if (matchingExchange) {
-      // Обновляем найденный обмен
-      matchingExchange.status = "match";
-      matchingExchange.accepterId = creatorId;
-      await matchingExchange.save();
-
-      // Создаем новый обмен с обновленным статусом
-      const newExchange = new Exchange({
-        creatorId,
-        bookId,
-        desiredCriteria,
-        status: "match",
-        accepterId: matchingExchange.creatorId,
-      });
-
-      await newExchange.save();
-
-      return res.status(200).json(newExchange);
-    }
-
-    // Шаг 3: Проверяем, есть ли книга, соответствующая `desiredCriteria`
+    // 2. Проверяем, есть ли книга, соответствующая `desiredCriteria`
     const matchingBook = await Book.findOne({
       title: desiredCriteria.title,
       author: desiredCriteria.author,
@@ -188,41 +159,46 @@ router.post("/exchange", async (req, res) => {
     });
 
     if (matchingBook) {
-      // Если книга найдена, проверяем соответствующие обмены
-      const matchedExchange = await Exchange.findOneAndUpdate(
-        { bookId: matchingBook._id, status: "pending" },
-        { status: "match", accepterId: creatorId },
-        { new: true }
-      );
+      // 2.1. Если есть совпадающая книга, проверяем, есть ли обмен с этой книгой
+      const matchingExchange = await Exchange.findOne({
+        bookId: matchingBook._id,
+        status: "pending",
+      });
 
-      if (matchedExchange) {
-        // Создаем новый обмен с обновленным статусом
+      if (matchingExchange) {
+        // 2.2. Если найден обмен, обновляем его на `match`
+        matchingExchange.status = "match";
+        matchingExchange.accepterId = creatorId;
+        await matchingExchange.save();
+
+        // Создаем новый обмен со статусом `match`
         const newExchange = new Exchange({
           creatorId,
           bookId,
           desiredCriteria,
           status: "match",
-          accepterId: matchedExchange.creatorId,
+          accepterId: matchingExchange.creatorId,
         });
-
         await newExchange.save();
 
         return res.status(200).json(newExchange);
       }
     }
 
-    // Шаг 4: Если совпадений нет, создаем новый обмен
+    // 3. Если совпадений не найдено, создаем новый обмен с `pending` и `accepterId: null`
     const newExchange = new Exchange({
       creatorId,
       bookId,
       desiredCriteria,
       status: "pending",
+      accepterId: null, // Явно указываем null для `accepterId`
     });
 
     await newExchange.save();
     return res.status(201).json(newExchange);
   } catch (err) {
-    res.status(400).send(err.message);
+    console.error("Error in POST /exchange:", err.message);
+    res.status(400).json({ error: err.message });
   }
 });
 
