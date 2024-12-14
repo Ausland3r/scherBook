@@ -32,7 +32,7 @@ const exchangeSchema = new mongoose.Schema({
     author: { type: String, required: false }, // Желаемый автор книги
     genre: { type: String, required: false } // Желаемый жанр книги
   },
-  status: {type: String, default: "pending"},
+  status: { type: String, enum: ["pending", "match"], default: "pending" },
   createdAt: { type: Date, default: Date.now } // Дата создания запроса на обмен
 
 });

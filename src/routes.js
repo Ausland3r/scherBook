@@ -207,5 +207,26 @@ router.get("/books/:id", async (req, res) => {
   }
 });
 
+router.put("/exchange/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { accepterId } = req.body;
+
+    // Обновление accepterId и статуса
+    const updatedExchange = await Exchange.findByIdAndUpdate(
+      id,
+      { accepterId, status: "match" },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedExchange) {
+      return res.status(404).send("Exchange not found");
+    }
+
+    res.json(updatedExchange);
+  } catch (err) {
+    res.status(400).send(err.message);
+  }
+});
 
 module.exports = router;
