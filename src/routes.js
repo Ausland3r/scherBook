@@ -142,15 +142,45 @@ router.post("/exchange", async (req, res) => {
   try {
     const { creatorId, bookId, desiredCriteria } = req.body;
 
-    // Создание нового запроса на обмен
-    const newExchange = new Exchange({
-      creatorId,
-      bookId,
-      desiredCriteria
+    // Проверяем, существует ли подходящий обмен
+    const matchingExchange = await Exchange.findOne({
+      "desiredCriteria.title": desiredCriteria.title,
+      "desiredCriteria.author": desiredCriteria.author,
+      "desiredCriteria.genre": desiredCriteria.genre,
+      status: "pending",
     });
 
-    await newExchange.save();
-    res.status(201).json(newExchange);
+    if (matchingExchange) {
+      // Обновляем существующий обмен
+      matchingExchange.status = "match";
+      matchingExchange.accepterId = creatorId;
+      await matchingExchange.save();
+
+      // Создаем новый обмен с обновленным статусом
+      const newExchange = new Exchange({
+        creatorId,
+        bookId,
+        desiredCriteria,
+        status: "match",
+        accepterId: matchingExchange.creatorId,
+      });
+
+      await newExchange.save();
+
+      // Возвращаем только новый обмен
+      return res.status(200).json(newExchange);
+    } else {
+      // Если совпадения нет, создаем новый обмен
+      const newExchange = new Exchange({
+        creatorId,
+        bookId,
+        desiredCriteria,
+        status: "pending",
+      });
+
+      await newExchange.save();
+      return res.status(201).json(newExchange);
+    }
   } catch (err) {
     res.status(400).send(err.message);
   }
