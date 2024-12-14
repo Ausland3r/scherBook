@@ -158,11 +158,11 @@ router.post("/exchange", async (req, res) => {
 
 router.get("/exchange/:id", async (req, res) => {
   try {
-    const Exchange = await Exchange.findById(req.params.id);
-    if (!Exchange) {
+    const exchange = await Exchange.findById(req.params.id);
+    if (!exchange) {
       return res.status(404).send("Exchange not found");
     }
-    res.json(Exchange);
+    res.json(exchange);
   } catch (err) {
     res.status(500).send(err.message);
   }
