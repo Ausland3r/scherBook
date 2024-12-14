@@ -139,19 +139,9 @@ router.get("/books", async (req, res) => {
 
 router.post("/exchange", async (req, res) => {
   try {
-    const { creatorId, title, author, genre, desiredCriteria } = req.body;
+    const { creatorId, bookId, desiredCriteria } = req.body;
 
-    // 1. Создаем книгу, которую пользователь предлагает на обмен
-    const newBook = new Book({
-      ownerId: creatorId,
-      title,
-      author,
-      genre,
-    });
-    const savedBook = await newBook.save(); // Сохраняем книгу
-    const bookId = savedBook._id; // Получаем ID сохраненной книги
-
-    // 2. Проверяем, есть ли книга, соответствующая `desiredCriteria`
+    // Проверяем, есть ли книга, соответствующая `desiredCriteria`
     const matchingBook = await Book.findOne({
       title: desiredCriteria.title,
       author: desiredCriteria.author,
@@ -159,14 +149,14 @@ router.post("/exchange", async (req, res) => {
     });
 
     if (matchingBook) {
-      // 2.1. Если есть совпадающая книга, ищем активный обмен с этой книгой
+      // Проверяем, есть ли обмен с этой книгой
       const matchingExchange = await Exchange.findOne({
         bookId: matchingBook._id,
         status: "pending",
       });
 
       if (matchingExchange) {
-        // 2.2. Если найден обмен, обновляем его на `match`
+        // Обновляем найденный обмен на `match`
         matchingExchange.status = "match";
         matchingExchange.accepterId = creatorId;
         await matchingExchange.save();
@@ -185,7 +175,7 @@ router.post("/exchange", async (req, res) => {
       }
     }
 
-    // 3. Если совпадений не найдено, создаем новый обмен со статусом `pending`
+    // Если совпадений не найдено, создаем новый обмен со статусом `pending`
     const newExchange = new Exchange({
       creatorId,
       bookId,
