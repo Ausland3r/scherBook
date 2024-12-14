@@ -265,4 +265,39 @@ router.put("/exchange/:id", async (req, res) => {
   }
 });
 
+router.delete("/exchange/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Удаление обмена и получение информации о книге
+    const deletedExchange = await Exchange.findByIdAndDelete(id);
+
+    if (!deletedExchange) {
+      return res.status(404).send("Exchange not found");
+    }
+
+    res.json({ bookId: deletedExchange.bookId });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
+// Удаление книги по ID
+router.delete("/books/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Удаление книги
+    const deletedBook = await Book.findByIdAndDelete(id);
+
+    if (!deletedBook) {
+      return res.status(404).send("Book not found");
+    }
+
+    res.json({ message: "Book deleted successfully", bookId: id });
+  } catch (err) {
+    res.status(500).send(err.message);
+  }
+});
+
 module.exports = router;
