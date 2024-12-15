@@ -18,18 +18,25 @@ mongoose
   .then(() => console.log("Connected to MongoDB"))
   .catch((err) => console.error("Failed to connect to MongoDB", err));
 
-  const corsOptions = {
-    origin: "*", // Разрешить запросы с любого источника
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Разрешённые методы
-    allowedHeaders: ["Content-Type", "Authorization"], // Разрешённые заголовки
-    credentials: false // Если не нужно передавать токены/куки
-  };
+// Настройка CORS
+const corsOptions = {
+  origin: "*", // Разрешить запросы с любого источника
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"], // Разрешённые методы
+  allowedHeaders: ["Content-Type", "Authorization"], // Разрешённые заголовки
+  credentials: false // Если не нужно передавать токены/куки
+};
 
-// Middleware
-app.use(express.json()); // Обработка JSON-запросов
-app.use("/api", routes); // Подключение маршрутов по префиксу "/api"
+// Подключение CORS до маршрутов
 app.use(cors(corsOptions));
 
+// Обработка preflight-запросов
+app.options("*", cors(corsOptions));
+
+// Middleware для обработки JSON
+app.use(express.json());
+
+// Подключение маршрутов
+app.use("/api", routes);
 
 // Запуск сервера
 app.listen(PORT, () => {
