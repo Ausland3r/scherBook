@@ -1,0 +1,30 @@
+Repo,Commit SHA,Author,Message,Suggestion
+Ausland3r/scherBook,fc2d24da19a1f649b4c7c0cd0a65ba9fcf71275f,Ausland3r,server cors fix,Review large deletions (many deletions may indicate a fix); Review fix commits for potential issues
+Ausland3r/scherBook,2de5322784c9a83d3c02d8a6c2cd55e57573b068,Ausland3r,cors added,No specific recommendations
+Ausland3r/scherBook,3cb3d15935b81c545fe99d15c62545ee71c8df54,Ausland3r,delete exchange + book,Review large time gap between commits (may indicate slow development process)
+Ausland3r/scherBook,9f7242886c9600d03a17195453aea99a69697af9,Ausland3r,one more try,Review large deletions (many deletions may indicate a fix); Review large time gap between commits (may indicate slow development process)
+Ausland3r/scherBook,66390932760b0108764850d05a38ab56b9a853d7,Ausland3r,new try,No specific recommendations
+Ausland3r/scherBook,b29c5451d9bf08feccd595e086a1cbe44b4c4afa,Ausland3r,changes exchange,Review large deletions (many deletions may indicate a fix); Review total changes for potential issues (too many changes since last commit)
+Ausland3r/scherBook,caef41213966f947ec363d32f699fcd395938c44,Ausland3r,exchange changed,Review large additions; Review large deletions (many deletions may indicate a fix); Review total changes for potential issues (too many changes since last commit)
+Ausland3r/scherBook,b4b5b7d907b3e235543000eedd445b767bee5711,Ausland3r,exchange change,No specific recommendations
+Ausland3r/scherBook,02a555d95734f16d452b48419cb6f2653f121168,Ausland3r,put exchange,Review large time gap between commits (may indicate slow development process)
+Ausland3r/scherBook,b63988f4fa477816ab0c0201587e5cf4f3ccf25b,Ausland3r,fix exchange,Review large time gap between commits (may indicate slow development process); Review fix commits for potential issues
+Ausland3r/scherBook,acc1f5784c7a6d43395cda5841801c512de456b1,Ausland3r,exchenge by id,No specific recommendations
+Ausland3r/scherBook,e78f9a02c9ad121d8cd33de9bb3a43a08c30f2ff,Ausland3r,book by id,Review large time gap between commits (may indicate slow development process)
+Ausland3r/scherBook,bfac9a1c5be74dbf77dde044164bbf79fbf6beb2,Ausland3r,updated routes,Review large time gap between commits (may indicate slow development process)
+Ausland3r/scherBook,620e9a28e6b2079aaa0bc799298f94958ff5fa58,Ausland3r,/exchange,Review large time gap between commits (may indicate slow development process)
+Ausland3r/scherBook,5490351ca8ac07f51f75449b12f948aa97bf54f1,Ausland3r,delete validation,No specific recommendations
+Ausland3r/scherBook,9e5b1fa44519194958881dca0cff888b36341a8e,Ausland3r,contactData,No specific recommendations
+Ausland3r/scherBook,09f86c767a4b14d4938150bf0f1eab1ae713d6ce,Ausland3r,"genres + get user by id, post book",Review large additions; Review total changes for potential issues (too many changes since last commit)
+Ausland3r/scherBook,7a0f110240c207b5fdafc0a8c1b1630b4847ac5b,Ausland3r,token removed,Review large deletions (many deletions may indicate a fix)
+Ausland3r/scherBook,e3eef963736f42084b7bee99315b70dc1b301e10,Ausland3r,token is needed,Review large deletions (many deletions may indicate a fix); Review total changes for potential issues (too many changes since last commit)
+Ausland3r/scherBook,c0cee8bc5157c8f73af7f7152994438534f68997,Ausland3r,Update routes.js,Review large time gap between commits (may indicate slow development process)
+Ausland3r/scherBook,a07d213dd9a14b3eaf78a110b19380c5346c0707,Ausland3r,Merge branch 'main' of https://github.com/Ausland3r/scherBook,Review merge commits for potential integration issues
+Ausland3r/scherBook,2cd0b6c93e7fe7c63f98eecf8d9457ce73708612,Ausland3r,registation,No specific recommendations
+Ausland3r/scherBook,bc30236f1f41162d4d0635da9bf57ba8ea8ef8b6,Ausland3r,Update package.json,No specific recommendations
+Ausland3r/scherBook,0cfcd1269f039957490eaf7355fc686ae33a6221,Ausland3r,route update,No specific recommendations
+Ausland3r/scherBook,f8593f3a52dbc759cc317b427f7dcc5829b46dad,Ausland3r,Merge branch 'main' of https://github.com/Ausland3r/scherBook,Review large time gap between commits (may indicate slow development process); Review merge commits for potential integration issues
+Ausland3r/scherBook,058aece0990e1c70b639cc7fb34fbe2b557c8193,Ausland3r,user change,No specific recommendations
+Ausland3r/scherBook,d1b6e867ec3548c8b77ee832cae6a9a2d51f63f5,Ausland3r,Update server.js,Review large time gap between commits (may indicate slow development process)
+Ausland3r/scherBook,10b5461b3b9edfab68df7e3f81df2eb4dd15fba7,Ausland3r,db jsons change place,No specific recommendations
+Ausland3r/scherBook,c2284566f9f0842eb03440538fc49d1a1200c6f6,Ausland3r,Initial commit,"Review large additions; Review total changes for potential issues (too many changes since last commit); Review changes in multiple files (many files updated, possible compatibility issues)"
